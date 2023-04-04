@@ -1,0 +1,26 @@
+{
+  "name": "expressplatzi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "lint": "./node_modules/.bin/standard --fix"
+  },
+  "keywords": [],
+  "author": "tiagoreez <tiagorpo8@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.21",
+    "prettier": "^2.8.6"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@hapi/boom": "^10.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "joi": "^17.9.1"
+  }
+}
