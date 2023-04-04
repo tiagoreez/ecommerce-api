@@ -13,7 +13,7 @@ const getProductSchema = Joi.object({
 
 const updateProductSchema = Joi.object({
 
-    id: id.required(),
+    id:id,
     name: name,
     price: price,
     img: img
