@@ -9,3 +9,5 @@ function setUpModels(sequelize){
 }
 
 module.exports = {setUpModels};
+
+
