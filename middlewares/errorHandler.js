@@ -22,9 +22,29 @@ function boomErrorHandler(err,req,res,next){
     next(err)
 
   }
-  
 }
 
+function queryErrorHandler(err,req,res,next){
+
+  if(err.parent){
+
+    const {errors, fields} = err
+    const message = errors[0].message
+    res.status(406).json({message,fields})
 
 
-module.exports = { logErrors, errorHandler, boomErrorHandler}
+
+  }else{
+
+    next(err)
+  }
+
+    
+
+}
+  
+
+
+
+
+module.exports = { logErrors, errorHandler, boomErrorHandler, queryErrorHandler}

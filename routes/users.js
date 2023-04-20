@@ -19,13 +19,13 @@ router.get('/', async (req, res)=>{
 
 router.get('/:id',
   validatorHandler(getUserSchema,'params'),
-  (req,res)=>{
+  async (req,res)=>{
 
     const { id } = req.params
     
     try {
 
-      const user = service.getOne(id)
+      const user = await service.getOne(id)
       res.status(200).json(user)
       
     } catch (error) {
@@ -39,15 +39,22 @@ router.get('/:id',
 
 router.post('/', 
   validatorHandler(postUserSchema,'body'),
-  (req, res)=>{
+  async (req, res, next)=>{
 
-    const body = req.body
-    const newUser = service.post(body)
+    try {
 
-    res.status(201).json({
-      message: 'Created',
-      newUser
-    })
+      const body = req.body
+      const newUser = await service.post(body)
+
+      res.status(201).json({
+        message: 'Created',
+        newUser
+      })
+      
+    } catch (error) {
+        next(error)
+    }
+    
   }
 )
 
@@ -77,12 +84,12 @@ router.patch('/:id',
 )
 
 
-router.delete('/:id', (req, res)=>{
+router.delete('/:id', async (req, res,next)=>{
   const { id } = req.params
 
   try {
 
-    const deletedId = service.delete(id)
+    const deletedId = await service.delete(id)
     res.json({
       message: 'User Deleted',
       deletedId

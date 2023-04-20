@@ -6,10 +6,12 @@ id : faker.datatype.uuid(),
 lastName: faker.name.lastName(),
 phoneNumber: faker.phone.number() */
 
-const name = Joi.string().min(3).max(20)
-const id = Joi.string().uuid()
-const lastName = Joi.string().min(3).max(20)
-const phoneNumber = Joi.string()
+
+const id = Joi.number().integer()
+const email = Joi.string().email()
+const password = Joi.string().min(8)
+const role = Joi.string()
+
 
 
 const getUserSchema = Joi.object({
@@ -20,17 +22,17 @@ const getUserSchema = Joi.object({
 
 const postUserSchema = Joi.object({
 
-    name: name.required(),
-    lastName: lastName.required(),
-    phoneNumber: phoneNumber.required()
+    email: email.required(),
+    password: password.required(),
+    role: role,
 
 })
 
 const patchUserSchema = Joi.object({
     id:id,
-    name: name,
-    lastName: lastName,
-    phoneNumber: phoneNumber
+    email: email,
+    password: password,
+    role: role,
 
 })
 

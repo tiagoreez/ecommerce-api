@@ -8,6 +8,7 @@ const categoriesSchema = {
     id:{
 
         allowNull: false,
+        primaryKey: true,
         type: DataTypes.INTEGER,
         autoIncrement: true
 
@@ -21,6 +22,14 @@ const categoriesSchema = {
 
 class Category extends Model{
 
+    static associate(models){
+
+        this.hasMany(models.Product, {
+            as: 'products',
+            foreignKey: 'categoryId'
+        })
+
+    }
 
     static config(sequelize){
         return {
@@ -28,7 +37,7 @@ class Category extends Model{
             sequelize,
             tableName: CATEGORY_TABLE,
             modelName: 'Category',
-            timeStamp: false
+            timeStamps: false
 
         }
 

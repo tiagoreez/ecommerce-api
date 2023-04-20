@@ -7,7 +7,7 @@ const UserSchema = {
 
     id: {
         allowNull: false,
-        autoIncremet: true,
+        autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
@@ -20,10 +20,15 @@ const UserSchema = {
         allowNull: false,
         type: DataTypes.STRING
     },
+    role:{
+        allowNull: false,
+        type:DataTypes.STRING,
+        defaultValue: 'costumer'
+    },
     createdAt: {
         allowNull: false,
         type : DataTypes.DATE,
-        field : 'create_at',
+        field : 'created_at',
         defaultValue : Sequelize.NOW
     }
 
@@ -31,9 +36,12 @@ const UserSchema = {
 
 class User extends Model {
 
-    static associate(){
+    static associate(models){
 
-        //associate
+        this.hasOne(models.Customer,{
+            as: 'customer',
+            foreignKey: 'userId'
+        })
 
     }
 
@@ -43,8 +51,7 @@ class User extends Model {
             sequelize,
             tableName: USER_TABLE,
             modelName: 'User',
-            timeStamps: false
-
+            timestamps: false,
         }
 
     }
