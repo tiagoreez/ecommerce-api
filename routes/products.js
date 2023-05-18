@@ -13,6 +13,13 @@ router.get('/', async (req, res) => {
   res.json(products)
 })
 
+/*router.get('/generate',async (req,res)=>{
+
+  const allProducts = await service.generate()
+  res.json(allProducts)
+
+})*/
+
 router.get('/:id', 
   validatorHandler(getProductSchema, 'params'),
   async (req, res,next) => {
@@ -28,6 +35,8 @@ router.get('/:id',
  
 })
 
+
+
 router.post('/',
   validatorHandler(postProductSchema, 'body'),
   async (req, res) => {
@@ -38,6 +47,8 @@ router.post('/',
     newProduct
   })
 })
+
+
 
 router.patch('/:id',
 

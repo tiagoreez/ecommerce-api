@@ -1,13 +1,17 @@
 function logErrors (err, req, res, next) {
+
   console.error(err)
   next(err)
+  
 }
 
 function errorHandler (err, req, res, next) {
+
   res.status(500).json({
     message: err.message,
     stack: err.stack
   })
+
 }
 
 function boomErrorHandler(err,req,res,next){
@@ -32,15 +36,11 @@ function queryErrorHandler(err,req,res,next){
     const message = errors[0].message
     res.status(406).json({message,fields})
 
-
-
   }else{
 
     next(err)
+
   }
-
-    
-
 }
   
 

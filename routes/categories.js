@@ -1,22 +1,12 @@
 const express = require('express')
-
 const router = express.Router()
 
-router.get('/categories', (req, res) => {
-  res.json([
-    {
-      categoryID: 1,
-      name: 'Sports'
-    },
-    {
-      categoryID: 2,
-      name: 'Entertainment'
-    },
-    {
-      categoryID: 3,
-      name: 'Electronics'
-    }
-  ])
+const { CategoryServices } = require('../services/categories')
+const service = new CategoryServices()
+
+router.get('/', async(req, res) => {
+    const categories = await service.get()
+    res.json(categories)
 })
 
 router.get('/categories/:categoryID/products/:productID', (req, res) => {
@@ -31,11 +21,12 @@ router.get('/categories/:categoryID/products/:productID', (req, res) => {
   )
 })
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const body = req.body
+  const newCategory = await service.post(body)
   res.json({
     message: 'Created',
-    body
+    newCategory
   })
 })
 
