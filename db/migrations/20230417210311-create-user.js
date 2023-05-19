@@ -1,6 +1,5 @@
 'use strict'
 
-
 const { UserSchema, USER_TABLE } = require('./../models/user_model')
 const { productsSchema, PRODUCTS_TABLE } = require('./../models/products_model')
 const { categoriesSchema, CATEGORY_TABLE } = require('./../models/category_model')

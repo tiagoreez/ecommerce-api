@@ -21,11 +21,13 @@ class Users {
   }
 
   async post (body) {
-    const hash = await bcrypt.hash(body.password, 100)
+    const hash = await bcrypt.hash(body.password, 10)
+    console.log('Aqui voy')
     const newUser = await models.User.create({
       ...body,
       password: hash
     })
+    delete newUser.dataValues.password
     return newUser
   }
 
