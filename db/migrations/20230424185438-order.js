@@ -1,8 +1,5 @@
-'use strict';
-
-const { DataTypes } = require('sequelize')
-const {ORDER_TABLE, orderSchema} = require('../models/order_model')
-const { CUSTOMER_TABLE} = require('../models/customers_model')
+'use strict'
+const { ORDER_TABLE, orderSchema } = require('../models/order_model')
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -13,4 +10,4 @@ module.exports = {
   async down (queryInterface, Sequelize) {
     await queryInterface.dropTable('orders')
   }
-};
+}

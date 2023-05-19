@@ -1,54 +1,45 @@
-const { faker } = require('@faker-js/faker')
-const boom = require('@hapi/boom')
 
+const boom = require('@hapi/boom')
+const bcrypt = require('bcrypt')
 const { models } = require('../libs/sequelize')
 
-class Users{
+class Users {
+  async get () {
+    const response = await models.User.findAll({
+      include: ['customer']
 
-    constructor(){
+    })
+    return response
+  }
+
+  async getOne (id) {
+    const user = await models.User.findByPk(id)
+    if (!user) {
+      throw boom.notFound('User not found')
     }
+    return user
+  }
 
-    async get(){
+  async post (body) {
+    const hash = await bcrypt.hash(body.password, 100)
+    const newUser = await models.User.create({
+      ...body,
+      password: hash
+    })
+    return newUser
+  }
 
-        const response = await models.User.findAll({
-            include: ['customer']
-            
-        })
-        return response
-    }
+  async patch (id, body) {
+    const user = await this.getOne(id)
+    const rta = user.update(body)
+    return rta
+  }
 
-    async getOne(id){
-
-        
-        const user = await models.User.findByPk(id)
-        if(!user){
-            throw boom.notFound('User not found')
-        }
-        return user
-    }
-
-
-    async post(body){
-        const newUser = await models.User.create(body)
-        return newUser
-    }
-
-    async patch(id,body){
-
-        const user = await this.getOne(id)
-        const rta = user.update(body)
-        return rta
-    }
-
-    async delete(id){
-
-        const user = await this.getOne(id)
-        await user.destroy()
-        return { id }
-
-    }
-
+  async delete (id) {
+    const user = await this.getOne(id)
+    await user.destroy()
+    return { id }
+  }
 }
-
 
 module.exports = Users
