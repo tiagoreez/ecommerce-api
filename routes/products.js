@@ -18,37 +18,30 @@ router.get('/', async (req, res) => {
   const allProducts = await service.generate()
   res.json(allProducts)
 
-})*/
+}) */
 
-router.get('/:id', 
+router.get('/:id',
   validatorHandler(getProductSchema, 'params'),
-  async (req, res,next) => {
+  async (req, res, next) => {
     try {
-
-      const { id } =  req.params
+      const { id } = req.params
       const product = await service.getOne(id)
       res.json(product)
-      
     } catch (error) {
       next(error)
     }
- 
-})
-
-
+  })
 
 router.post('/',
   validatorHandler(postProductSchema, 'body'),
   async (req, res) => {
-  const body = req.body
-  const newProduct = await service.create(body)
-  res.status(201).json({
-    message: 'created',
-    newProduct
+    const body = req.body
+    const newProduct = await service.create(body)
+    res.status(201).json({
+      message: 'created',
+      newProduct
+    })
   })
-})
-
-
 
 router.patch('/:id',
 
@@ -67,25 +60,21 @@ router.patch('/:id',
     } catch (error) {
       next(error)
     }
-})
-
-router.delete('/:id', 
-  validatorHandler(deleteProductSchema,'params'), 
-  async (req, res, next) => {
-  const { id } = req.params
-  try {
-    const deletedProduct = await service.delete(id)
-    res.json({
-    message: 'deleted',
-    deletedProduct
   })
-    
-  } catch (error) {
-    
-    next(error)
 
-  }
-  
-})
+router.delete('/:id',
+  validatorHandler(deleteProductSchema, 'params'),
+  async (req, res, next) => {
+    const { id } = req.params
+    try {
+      const deletedProduct = await service.delete(id)
+      res.json({
+        message: 'deleted',
+        deletedProduct
+      })
+    } catch (error) {
+      next(error)
+    }
+  })
 
 module.exports = router

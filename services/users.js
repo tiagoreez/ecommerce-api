@@ -20,9 +20,18 @@ class Users {
     return user
   }
 
+  async getOneByEmail (email) {
+    const user = await models.User.findOne({
+      where: { email }
+    })
+    if (!user) {
+      throw boom.notFound('User not found')
+    }
+    return user
+  }
+
   async post (body) {
     const hash = await bcrypt.hash(body.password, 10)
-    console.log('Aqui voy')
     const newUser = await models.User.create({
       ...body,
       password: hash

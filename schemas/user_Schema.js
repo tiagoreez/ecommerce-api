@@ -18,7 +18,7 @@ const getUserSchema = Joi.object({
 })
 
 const postUserSchema = Joi.object({
-
+  id,
   email: email.required(),
   password: password.required(),
   role
