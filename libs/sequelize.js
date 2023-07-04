@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize')
 const config = require('../config/config')
 const { setUpModels } = require('../db/models/index')
 
-const URI = `${config.dbEngine}://${config.dbUser}:${config.dbPassword}@${config.dbHost}:${config.dbPort}/${config.dbName}`
+const URI = config.dbUri
 
 const sequelize = new Sequelize(URI, {
 

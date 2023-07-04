@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
-
+const passport = require('passport')
 const CustomersService = require('../services/customers')
 const service = new CustomersService()
 
 const validatorHandler = require('../middlewares/validatorHandler')
 const { getCustomerSchema, postCustomerSchema, patchCustomerSchema } = require('./../schemas/costumers_Schema')
+const protectRoute = passport.authenticate('jwt', { session: false })
 
 // return all the costumers
 router.get('/', async (req, res) => {
@@ -26,7 +27,7 @@ router.get('/:id', validatorHandler(getCustomerSchema, 'params'),
     }
   })
 
-router.post('/', validatorHandler(postCustomerSchema, 'body'),
+router.post('/', protectRoute, validatorHandler(postCustomerSchema, 'body'),
   async (req, res, next) => {
     const body = req.body
     try {
@@ -38,7 +39,7 @@ router.post('/', validatorHandler(postCustomerSchema, 'body'),
   }
 )
 
-router.patch('/:id',
+router.patch('/:id', protectRoute,
   validatorHandler(getCustomerSchema, 'params'),
   validatorHandler(patchCustomerSchema, 'body'),
   async (req, res, next) => {
@@ -52,7 +53,7 @@ router.patch('/:id',
     }
   })
 
-router.delete('/:id', validatorHandler(getCustomerSchema, 'params'),
+router.delete('/:id', protectRoute, validatorHandler(getCustomerSchema, 'params'),
   async (req, res) => {
     const { id } = req.params
     const deletedCustomer = await service.delete(id)

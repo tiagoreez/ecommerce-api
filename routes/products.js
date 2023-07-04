@@ -1,19 +1,19 @@
 
 const express = require('express')
 const router = express.Router()
-
+const passport = require('passport')
 const ProductService = require('../services/product')
 const service = new ProductService()
 
 const validatorHandler = require('../middlewares/validatorHandler')
 const { getProductSchema, updateProductSchema, postProductSchema, deleteProductSchema } = require('../schemas/product_Schema')
-
+const protectRoute = passport.authenticate('jwt', { session: false })
 router.get('/', async (req, res) => {
   const products = await service.get()
   res.json(products)
 })
 
-/*router.get('/generate',async (req,res)=>{
+/* router.get('/generate',async (req,res)=>{
 
   const allProducts = await service.generate()
   res.json(allProducts)
@@ -32,7 +32,7 @@ router.get('/:id',
     }
   })
 
-router.post('/',
+router.post('/', protectRoute,
   validatorHandler(postProductSchema, 'body'),
   async (req, res) => {
     const body = req.body
@@ -43,7 +43,7 @@ router.post('/',
     })
   })
 
-router.patch('/:id',
+router.patch('/:id', protectRoute,
 
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
@@ -62,7 +62,7 @@ router.patch('/:id',
     }
   })
 
-router.delete('/:id',
+router.delete('/:id', protectRoute,
   validatorHandler(deleteProductSchema, 'params'),
   async (req, res, next) => {
     const { id } = req.params

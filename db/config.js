@@ -1,6 +1,6 @@
 const config = require('../config/config')
 
-const URI = `${config.dbEngine}://${config.dbUser}:${config.dbPassword}@${config.dbHost}:${config.dbPort}/${config.dbName}`
+const URI = config.dbUri
 
 module.exports = {
 

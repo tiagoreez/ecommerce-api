@@ -2,9 +2,10 @@ const express = require('express')
 const router = express.Router()
 const OrderService = require('../services/orders')
 const validatorHandler = require('../middlewares/validatorHandler')
+const passport = require('passport')
 const { postOrderSchema, updateOrderSchema, getOrderSchema, addItemSchema } = require('../schemas/order_Schema')
 const service = new OrderService()
-
+const protectRoute = passport.authenticate('jwt', { session: false })
 router.get('/', async (req, res) => {
   const users = await service.get()
 
@@ -25,7 +26,7 @@ router.get('/:id',
   }
 )
 
-router.post('/',
+router.post('/', protectRoute,
   validatorHandler(postOrderSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -42,7 +43,7 @@ router.post('/',
   }
 )
 
-router.post('/add-item',
+router.post('/add-item', protectRoute,
   validatorHandler(addItemSchema, 'body'),
   async (req, res) => {
     const body = req.body
@@ -52,7 +53,7 @@ router.post('/add-item',
     res.status(201).json(newItem)
   })
 
-router.patch('/:id',
+router.patch('/:id', protectRoute,
   validatorHandler(getOrderSchema, 'params'),
   validatorHandler(updateOrderSchema, 'body'),
   (req, res, next) => {
@@ -71,7 +72,7 @@ router.patch('/:id',
   }
 )
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', protectRoute, async (req, res, next) => {
   const { id } = req.params
 
   try {
