@@ -6,7 +6,7 @@ const { checkApiKey } = require('./middlewares/authHandler.js')
 const { logErrors, errorHandler, boomErrorHandler, queryErrorHandler } = require('./middlewares/errorHandler')
 // const cors = require('cors')
 const app = express()
-const PORT = config.port
+const PORT = config.port || 3000
 
 app.use(express.json())
 // require('./utils/auth/index.js')
