@@ -54,6 +54,19 @@ class AuthService {
     return rta
   }
 
+  async changePassword (token, newPassword) {
+    const payload = jwt.verify(token, config.jwtSecret)
+    const user = await service.getOne(payload.sub)
+    if (user.recoveryToken !== token) {
+      throw boom.unauthorized()
+    }
+    const hash = await bcrypt.hash(newPassword, 10)
+    console.log(hash)
+
+    await service.patch(user.id, { recoveryToken: null, password: hash })
+    return { message: 'password changed' }
+  }
+
   async sendMail (infoMail) {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
